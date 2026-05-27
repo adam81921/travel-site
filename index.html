@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的旅遊日誌</title>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1814;
+    --ink-light: #6b6560;
+    --ink-muted: #a09a94;
+    --paper: #faf8f4;
+    --paper-warm: #f3efe8;
+    --paper-card: #ffffff;
+    --accent: #c4392d;
+    --gold: #b8975a;
+    --border: rgba(26,24,20,0.12);
+    --border-soft: rgba(26,24,20,0.06);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-weight: 300;
+    font-size: 23px;
+    line-height: 1.8;
+  }
+
+  .hero {
+    background: var(--ink);
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    opacity: 0.035;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.5) 39px, rgba(255,255,255,0.5) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.5) 39px, rgba(255,255,255,0.5) 40px);
+  }
+  .hero-eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'M PLUS Rounded 1c', 'Noto Sans TC', sans-serif;
+    font-size: clamp(3.5rem, 8vw, 6rem);
+    font-weight: 300;
+    color: #faf8f4;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .hero h1 em { font-style: italic; color: var(--gold); }
+  .hero-sub {
+    font-size: 15px;
+    color: rgba(250,248,244,0.4);
+    letter-spacing: 0.15em;
+    position: relative;
+  }
+
+  main { max-width: 980px; margin: 0 auto; padding: 4rem 2rem; }
+
+  .section-label {
+    font-size: 12px; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::after { content:''; flex:1; height:0.5px; background:var(--border); }
+
+  .stats-bar {
+    display: flex; gap: 3rem;
+    padding: 2rem 0;
+    border-top: 0.5px solid var(--border-soft);
+    border-bottom: 0.5px solid var(--border-soft);
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+  .stat-number {
+    font-family: 'M PLUS Rounded 1c', 'Noto Sans TC', sans-serif;
+    font-size: 2.8rem; font-weight: 300;
+    line-height: 1; color: var(--ink);
+  }
+  .stat-label {
+    font-size: 12px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--ink-muted);
+    margin-top: 4px;
+  }
+
+  .trip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .trip-card {
+    background: var(--paper-card);
+    border: 0.5px solid var(--border);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+  }
+  .trip-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 48px rgba(26,24,20,0.12);
+  }
+
+  .trip-card-cover {
+    height: 200px;
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  .trip-card-cover img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.75;
+    transition: transform 0.6s ease, opacity 0.3s;
+  }
+  .trip-card:hover .trip-card-cover img {
+    transform: scale(1.06);
+    opacity: 0.88;
+  }
+  .trip-card-cover-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(26,24,20,0.5) 100%);
+  }
+  .trip-card-cover-title {
+    position: absolute;
+    bottom: 1rem; left: 1.25rem;
+    font-family: 'M PLUS Rounded 1c', 'Noto Sans TC', sans-serif;
+    font-size: 2rem; font-weight: 300;
+    color: rgba(250,248,244,0.9);
+    letter-spacing: 0.05em;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .trip-status {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    font-size: 10px; letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 0.5px solid;
+  }
+  .trip-status.past { color: var(--gold); border-color: rgba(184,151,90,0.6); background: rgba(26,24,20,0.45); }
+  .trip-status.upcoming { color: #7dd3b0; border-color: rgba(125,211,176,0.5); background: rgba(26,24,20,0.45); }
+  .trip-status.planning { color: rgba(250,248,244,0.55); border-color: rgba(250,248,244,0.2); background: rgba(26,24,20,0.45); }
+
+  .trip-card-body { padding: 1.5rem 1.5rem 1rem; }
+  .trip-card-date { font-size: 12px; letter-spacing: 0.12em; color: var(--ink-muted); margin-bottom: 0.5rem; }
+  .trip-card-title {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.25rem; font-weight: 400;
+    margin-bottom: 0.4rem; line-height: 1.4;
+  }
+  .trip-card-subtitle { font-size: 13px; color: var(--ink-light); line-height: 1.7; }
+
+  .trip-card-footer {
+    padding: 0.85rem 1.5rem;
+    border-top: 0.5px solid var(--border-soft);
+    display: flex; align-items: center;
+    justify-content: space-between;
+    font-size: 12px; color: var(--ink-muted);
+  }
+  .trip-card-arrow { font-size: 1.1rem; color: var(--accent); transition: transform 0.2s; }
+  .trip-card:hover .trip-card-arrow { transform: translateX(5px); }
+
+  .trip-card-new {
+    background: transparent;
+    border: 1px dashed var(--border);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    min-height: 300px; cursor: pointer;
+    text-decoration: none; color: var(--ink-muted);
+    transition: all 0.3s; gap: 0.75rem;
+  }
+  .trip-card-new:hover { border-color: var(--accent); color: var(--accent); background: rgba(196,57,45,0.02); }
+  .trip-card-new-icon { font-size: 2.2rem; font-weight: 200; line-height: 1; }
+  .trip-card-new-text { font-size: 13px; letter-spacing: 0.1em; }
+
+  footer {
+    background: var(--ink);
+    color: rgba(250,248,244,0.25);
+    text-align: center; padding: 2.5rem;
+    font-size: 13px; letter-spacing: 0.15em;
+  }
+  footer strong { color: var(--gold); font-weight: 400; }
+
+  @media (max-width: 600px) {
+    main { padding: 2.5rem 1.25rem; }
+    .stats-bar { gap: 1.5rem; }
+    .trip-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-eyebrow">Travel Journal · 旅遊日誌</div>
+  <h1>我的<em>旅程</em></h1>
+  <p class="hero-sub">記錄每一段旅途的美好</p>
+</div>
+
+<main>
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-number">2</div>
+      <div class="stat-label">趟旅程</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">1</div>
+      <div class="stat-label">個國家</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">5</div>
+      <div class="stat-label">天旅行天數</div>
+    </div>
+  </div>
+
+  <div class="section-label">All Trips · 所有旅程</div>
+
+  <div class="trip-grid">
+
+    <!-- 東京 2025 -->
+    <a href="tokyo-2025.html" class="trip-card">
+      <div class="trip-card-cover">
+        <img
+          src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=80"
+          alt="東京">
+        <div class="trip-card-cover-overlay"></div>
+        <div class="trip-card-cover-title">東京</div>
+        <div class="trip-status past">已完成</div>
+      </div>
+      <div class="trip-card-body">
+        <div class="trip-card-date">2025年12月21日 — 25日</div>
+        <div class="trip-card-title">東京之旅 with 夢夢</div>
+        <div class="trip-card-subtitle">淺草 · 迪士尼 · 鎌倉 · 江之島</div>
+      </div>
+      <div class="trip-card-footer">
+        <span>5天4夜 · 日本</span>
+        <span class="trip-card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- 北海道 2026 -->
+    <a href="hokkaido-2026.html" class="trip-card">
+      <div class="trip-card-cover">
+        <img
+          src="https://res.cloudinary.com/dahimm2nk/image/upload/w_600,q_auto,f_auto/v1774599765/beginnerPhoto_lndiyj.jpg"
+          alt="北海道">
+        <div class="trip-card-cover-overlay"></div>
+        <div class="trip-card-cover-title">北海道</div>
+        <div class="trip-status upcoming">即將出發</div>
+      </div>
+      <div class="trip-card-body">
+        <div class="trip-card-date">2026年9月5日 — 11日</div>
+        <div class="trip-card-title">北海道之旅</div>
+        <div class="trip-card-subtitle">札幌 · 旭山動物園 · 美瑛 · 小樽</div>
+      </div>
+      <div class="trip-card-footer">
+        <span>7天6夜 · 日本</span>
+        <span class="trip-card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- 新增旅程 -->
+    <div class="trip-card-new" onclick="alert('下次旅程：告訴 Claude 你的目的地和行程，他會幫你做一個新頁面！')">
+      <div class="trip-card-new-icon">+</div>
+      <div class="trip-card-new-text">新增旅程</div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <strong>我的旅遊日誌</strong> · 用心記錄每一段旅途
+</footer>
+</body>
+</html>

@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2025東京之旅 with 夢夢</title>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1814;
+    --ink-light: #6b6560;
+    --ink-muted: #a09a94;
+    --paper: #faf8f4;
+    --paper-warm: #f3efe8;
+    --paper-card: #ffffff;
+    --accent: #c4392d;
+    --accent-soft: #f0ddd9;
+    --gold: #b8975a;
+    --gold-soft: #f5eed8;
+    --border: rgba(26,24,20,0.12);
+    --border-soft: rgba(26,24,20,0.06);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-weight: 300;
+    font-size: 23px;
+    line-height: 1.8;
+  }
+
+  /* Back button */
+  .back-bar {
+    background: var(--ink);
+    padding: 0.75rem 2rem;
+    display: flex;
+    align-items: center;
+  }
+  .back-btn {
+    color: rgba(250,248,244,0.5);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s;
+  }
+  .back-btn:hover { color: var(--gold); }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    background: var(--paper);
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, #f5f0e8 0%, #faf8f4 60%, #f0ebe0 100%);
+  }
+  .hero-pattern {
+    position: absolute; inset: 0;
+    opacity: 0.04;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,0,0,0.5) 39px, rgba(0,0,0,0.5) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(0,0,0,0.5) 39px, rgba(0,0,0,0.5) 40px);
+  }
+  .hero-content { position: relative; z-index: 2; padding: 3rem 2rem; }
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .hero-title {
+    font-family: 'M PLUS Rounded 1c', 'Noto Sans TC', sans-serif;
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .hero-title em { font-style: italic; color: var(--accent); }
+  .hero-subtitle {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: var(--ink-light);
+    font-weight: 300;
+    margin-bottom: 3rem;
+    letter-spacing: 0.1em;
+  }
+  .hero-dates {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    border: 0.5px solid rgba(26,24,20,0.25);
+    padding: 0.75rem 2rem;
+    color: var(--ink);
+    font-size: 13px;
+    letter-spacing: 0.15em;
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 2rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--ink-muted);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, rgba(26,24,20,0.35), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+  @keyframes scrollLine {
+    0%,100% { transform: scaleY(1); opacity: 1; }
+    50% { transform: scaleY(0.5); opacity: 0.5; }
+  }
+
+  /* Nav */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,248,244,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 900px; margin: 0 auto;
+    padding: 0 2rem;
+    display: flex; gap: 0;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  nav a {
+    display: flex; align-items: center; gap: 6px;
+    padding: 1rem 1.25rem;
+    font-size: 12px; letter-spacing: 0.1em;
+    color: var(--ink-light);
+    text-decoration: none; white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  nav a:hover { color: var(--ink); border-bottom-color: var(--accent); }
+
+  /* Sections */
+  .section { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; }
+  .section-label {
+    font-size: 10px; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::after { content:''; flex:1; height:0.5px; background:var(--border); }
+  .section-title {
+    font-family: 'M PLUS Rounded 1c', 'Noto Sans TC', sans-serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300; line-height: 1.1;
+    margin-bottom: 3rem; color: var(--ink);
+  }
+
+  /* Info grid */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px; background: var(--border);
+    border: 0.5px solid var(--border);
+    margin-bottom: 3rem;
+  }
+  .info-card { background: var(--paper-card); padding: 2rem; }
+  .info-card-label {
+    font-size: 10px; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--ink-muted);
+    margin-bottom: 1rem;
+  }
+  .flight-route { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+  .airport-code {
+    font-family: 'M PLUS Rounded 1c', 'Noto Sans TC', sans-serif;
+    font-size: 2.5rem; font-weight: 300;
+    line-height: 1; color: var(--ink);
+  }
+  .flight-line {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; gap: 4px;
+  }
+  .flight-arrow {
+    width: 100%; height: 1px; background: var(--border);
+    position: relative;
+  }
+  .flight-arrow::after {
+    content: '›'; position: absolute;
+    right: -4px; top: -10px;
+    font-size: 12px; color: var(--ink-muted);
+  }
+  .flight-num { font-size: 10px; letter-spacing: 0.1em; color: var(--accent); }
+  .hotel-name {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--ink);
+  }
+  .hotel-detail { font-size: 12px; color: var(--ink-light); line-height: 1.6; }
+  .hotel-booking {
+    margin-top: 1rem; padding-top: 1rem;
+    border-top: 0.5px solid var(--border-soft);
+    font-size: 11px; letter-spacing: 0.05em; color: var(--ink-muted);
+  }
+  .hotel-booking strong { color: var(--gold); font-weight: 400; }
+
+  .map-container {
+    width: 100%; height: 260px;
+    background: var(--paper-warm);
+    border: 0.5px solid var(--border);
+    overflow: hidden; margin-top: 1rem;
+  }
+  .map-container iframe { width:100%; height:100%; border:none; }
+
+  /* Itinerary */
+  .itinerary-day { margin-bottom: 4rem; padding-bottom: 4rem; border-bottom: 0.5px solid var(--border-soft); }
+  .itinerary-day:last-child { border-bottom: none; }
+  .day-header {
+    display: flex; align-items: baseline; gap: 1.5rem;
+    margin-bottom: 2.5rem; padding-bottom: 1.5rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .day-number {
+    font-family: 'M PLUS Rounded 1c', 'Noto Sans TC', sans-serif;
+    font-size: 4rem; font-weight: 300;
+    line-height: 1; color: var(--ink); opacity: 0.15;
+  }
+  .day-info h3 {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.3rem; font-weight: 400; margin-bottom: 0.25rem;
+  }
+  .day-info p { font-size: 12px; letter-spacing: 0.1em; color: var(--ink-muted); }
+
+  .timeline { position: relative; padding-left: 2.5rem; }
+  .timeline::before {
+    content: ''; position: absolute;
+    left: 7px; top: 8px; bottom: 0;
+    width: 0.5px; background: var(--border);
+  }
+  .timeline-item { position: relative; margin-bottom: 2rem; }
+  .timeline-dot {
+    position: absolute; left: -2.5rem; top: 6px;
+    width: 15px; height: 15px; border-radius: 50%;
+    border: 0.5px solid var(--border);
+    background: var(--paper-card);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .timeline-dot::after {
+    content: ''; width: 5px; height: 5px;
+    border-radius: 50%; background: var(--accent);
+  }
+  .timeline-dot.highlight { border-color: var(--accent); }
+  .timeline-content h4 {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1rem; font-weight: 400;
+    margin-bottom: 0.35rem;
+  }
+  .timeline-content p { font-size: 13px; color: var(--ink-light); line-height: 1.7; }
+  .timeline-transport {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; color: var(--ink-muted);
+    margin-top: 0.5rem; padding: 3px 8px;
+    background: var(--paper-warm);
+    border: 0.5px solid var(--border-soft);
+  }
+  .ticket-price { display: inline-block; font-size: 11px; color: var(--accent); margin-top: 0.25rem; }
+
+  /* Photos — Cloudinary */
+  .photo-section { background: var(--ink); padding: 5rem 0; }
+  .photo-section .section { padding-top: 0; padding-bottom: 0; }
+  .photo-section .section-label { color: var(--gold); }
+  .photo-section .section-label::after { background: rgba(184,151,90,0.3); }
+  .photo-section .section-title { color: var(--paper); }
+
+  .photo-upload-area {
+    border: 1px dashed rgba(184,151,90,0.35);
+    background: rgba(250,248,244,0.03);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 1.5rem;
+  }
+  .photo-upload-area:hover {
+    background: rgba(250,248,244,0.06);
+    border-color: rgba(184,151,90,0.55);
+  }
+  .upload-icon { width: 44px; height: 44px; margin: 0 auto 1rem; opacity: 0.35; }
+  .upload-text { font-size: 13px; color: rgba(250,248,244,0.4); letter-spacing: 0.08em; line-height: 1.8; }
+  .upload-text strong { color: var(--gold); font-weight: 400; }
+
+  .upload-progress {
+    display: none;
+    background: rgba(250,248,244,0.06);
+    border: 0.5px solid rgba(184,151,90,0.3);
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    color: rgba(250,248,244,0.6);
+    font-size: 12px;
+    letter-spacing: 0.05em;
+  }
+  .upload-progress.active { display: block; }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 3px;
+  }
+  .photo-item {
+    aspect-ratio: 1; position: relative;
+    overflow: hidden;
+    background: rgba(250,248,244,0.05);
+    cursor: pointer;
+  }
+  .photo-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    display: block;
+  }
+  .photo-item:hover img { transform: scale(1.05); }
+  .photo-overlay {
+    position: absolute; inset: 0;
+    background: rgba(26,24,20,0);
+    transition: background 0.3s;
+    display: flex; align-items: flex-end;
+    padding: 0.75rem;
+  }
+  .photo-item:hover .photo-overlay { background: rgba(26,24,20,0.45); }
+  .photo-caption {
+    font-size: 11px; color: white; opacity: 0;
+    transition: opacity 0.3s; letter-spacing: 0.05em;
+  }
+  .photo-item:hover .photo-caption { opacity: 1; }
+  .photo-delete {
+    position: absolute; top: 8px; right: 8px;
+    width: 26px; height: 26px;
+    background: rgba(196,57,45,0.85);
+    color: white; border: none; border-radius: 50%;
+    cursor: pointer; font-size: 11px;
+    opacity: 0; transition: opacity 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .photo-item:hover .photo-delete { opacity: 1; }
+  .photo-empty {
+    color: rgba(250,248,244,0.2);
+    font-size: 13px; letter-spacing: 0.1em;
+    text-align: center; padding: 2rem 0;
+  }
+
+  /* Packing */
+  .packing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+  }
+  .packing-category h4 {
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 1rem; padding-bottom: 0.5rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .packing-item {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.5rem 0;
+    border-bottom: 0.5px solid var(--border-soft);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .packing-item:hover { padding-left: 4px; }
+  .packing-item input[type="checkbox"] {
+    appearance: none; width: 14px; height: 14px;
+    border: 0.5px solid var(--border);
+    flex-shrink: 0; cursor: pointer;
+    position: relative; transition: all 0.2s;
+  }
+  .packing-item input:checked { background: var(--accent); border-color: var(--accent); }
+  .packing-item input:checked::after {
+    content: '✓'; position: absolute;
+    top: -2px; left: 1px;
+    font-size: 10px; color: white;
+  }
+  .packing-item label { font-size: 13px; color: var(--ink-light); cursor: pointer; transition: all 0.2s; }
+  .packing-item input:checked + label { text-decoration: line-through; color: var(--ink-muted); }
+
+  /* Lightbox */
+  .lightbox {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.93);
+    z-index: 1000; align-items: center; justify-content: center;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox img { max-width: 90vw; max-height: 85vh; object-fit: contain; }
+  .lightbox-close {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    background: none; border: none;
+    color: rgba(255,255,255,0.4);
+    font-size: 1.5rem; cursor: pointer;
+    padding: 0.5rem; transition: color 0.2s;
+  }
+  .lightbox-close:hover { color: white; }
+
+  .ornament {
+    text-align: center; color: var(--gold);
+    margin: 3rem 0;
+    font-family: 'M PLUS Rounded 1c', 'Noto Sans TC', sans-serif;
+    font-size: 1.5rem; letter-spacing: 0.5em; opacity: 0.4;
+  }
+  footer {
+    background: var(--ink);
+    color: rgba(250,248,244,0.3);
+    text-align: center; padding: 3rem 2rem;
+    font-size: 11px; letter-spacing: 0.15em;
+  }
+  footer strong { color: var(--gold); font-weight: 400; }
+
+
+  /* Media grid - photos + videos */
+  .media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 4px;
+  }
+  @media (min-width: 600px) {
+    .media-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  }
+  .media-item {
+    aspect-ratio: 1; position: relative;
+    overflow: hidden;
+    background: rgba(250,248,244,0.05);
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  .media-item img, .media-item video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+    display: block;
+  }
+  .media-item:hover img, .media-item:hover video { transform: scale(1.08); }
+  .media-overlay {
+    position: absolute; inset: 0;
+    background: rgba(26,24,20,0);
+    transition: background 0.3s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .media-item:hover .media-overlay { background: rgba(26,24,20,0.45); }
+  .zoom-hint {
+    font-size: 11px; color: white; opacity: 0;
+    transition: opacity 0.3s; letter-spacing: 0.08em;
+    background: rgba(26,24,20,0.5);
+    padding: 4px 10px;
+  }
+  .media-item:hover .zoom-hint { opacity: 1; }
+  .play-btn {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(250,248,244,0.9);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.3s; flex-shrink: 0;
+  }
+  .play-btn svg { width: 16px; height: 16px; margin-left: 3px; }
+  .media-item:hover .play-btn { opacity: 1; }
+  .media-type-badge {
+    position: absolute; bottom: 6px; right: 6px;
+    font-size: 9px; letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.85);
+    background: rgba(26,24,20,0.6);
+    padding: 2px 6px; border-radius: 2px;
+  }
+
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 600px) {
+    .section { padding: 3rem 1.25rem; }
+    .info-grid { grid-template-columns: 1fr; }
+    nav a { padding: 0.75rem 0.9rem; font-size: 11px; }
+    .photo-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Back bar -->
+<div class="back-bar">
+  <a href="index.html" class="back-btn">← 回到所有旅程</a>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Travel Journal · 旅遊日誌</div>
+    <h1 class="hero-title">東京<br><em>with 夢夢</em></h1>
+    <p class="hero-subtitle">2025年十二月 · 五天四夜</p>
+    <div class="hero-dates">
+      <span>12</span><span style="opacity:.3">月</span><span>21</span>
+      <span style="opacity:.3">―</span>
+      <span>12</span><span style="opacity:.3">月</span><span>25</span>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>向下捲動</span>
+  </div>
+</section>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-inner">
+    <a href="#flights">✈ 航班</a>
+    <a href="#hotels">🏨 住宿</a>
+    <a href="#itinerary">🗓 行程</a>
+    <a href="#photos">📷 照片回憶</a>
+    <a href="#packing">🧳 行李清單</a>
+  </div>
+</nav>
+
+<!-- Flights -->
+<section id="flights" class="section fade-in">
+  <div class="section-label">Flight Information</div>
+  <h2 class="section-title">航班資訊</h2>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-card-label">去程 · Outbound</div>
+      <div class="flight-route">
+        <div>
+          <div class="airport-code">TSA</div>
+          <div style="font-size:11px;color:var(--ink-muted);margin-top:4px;">台北松山</div>
+          <div style="font-size:1rem;color:var(--ink);margin-top:2px;">09:00</div>
+        </div>
+        <div class="flight-line">
+          <div class="flight-arrow"></div>
+          <div class="flight-num">CI 220</div>
+          <div style="font-size:10px;color:var(--ink-muted);">中華航空</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="airport-code">HND</div>
+          <div style="font-size:11px;color:var(--ink-muted);margin-top:4px;">東京羽田</div>
+          <div style="font-size:1rem;color:var(--ink);margin-top:2px;">12:50</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--ink-muted);">12月21日（日）· 約3小時50分</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">回程 · Return</div>
+      <div class="flight-route">
+        <div>
+          <div class="airport-code">HND</div>
+          <div style="font-size:11px;color:var(--ink-muted);margin-top:4px;">東京羽田</div>
+          <div style="font-size:1rem;color:var(--ink);margin-top:2px;">14:15</div>
+        </div>
+        <div class="flight-line">
+          <div class="flight-arrow"></div>
+          <div class="flight-num">CI 221</div>
+          <div style="font-size:10px;color:var(--ink-muted);">中華航空</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="airport-code">TSA</div>
+          <div style="font-size:11px;color:var(--ink-muted);margin-top:4px;">台北松山</div>
+          <div style="font-size:1rem;color:var(--ink);margin-top:2px;">17:15</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--ink-muted);">12月25日（四）· 約3小時</div>
+    </div>
+  </div>
+</section>
+
+<!-- Hotels -->
+<section id="hotels" class="section fade-in">
+  <div class="section-label">Accommodation</div>
+  <h2 class="section-title">住宿資訊</h2>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-card-label">12/21 – 12/23 · 前兩晚</div>
+      <div class="hotel-name">MIMARU東京 STATION EAST</div>
+      <div class="hotel-detail">
+        〒104-0032<br>東京都中央区八丁堀1-12-8<br><br>
+        <span style="color:var(--ink);">交通：</span>從羽田機場搭京急線至寶町站，步行約5分鐘
+      </div>
+      <div class="hotel-booking">預約號碼：<strong>T230B5CAFE442</strong></div>
+      <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3241.3!2d139.775!3d35.674!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601889571db84e71%3A0xf1a7d87e66eb07d5!2sMIMARU%20Tokyo%20Station%20East!5e0!3m2!1szh-TW!2stw!4v1" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">12/23 – 12/25 · 後兩晚</div>
+      <div class="hotel-name">MIMARU東京 池袋</div>
+      <div class="hotel-detail">
+        〒171-0014<br>東京都豊島区池袋2-61-1<br><br>
+        <span style="color:var(--ink);">交通：</span>從東京車站搭JR山手線至池袋站
+      </div>
+      <div class="hotel-booking">預約號碼：<strong>TEA61F65C9983</strong></div>
+      <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3239.5!2d139.705!3d35.730!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188d62ea1ef3c9%3A0x9d7e1e5c6a5c7b3e!2sMIMARU%20Tokyo%20Ikebukuro!5e0!3m2!1szh-TW!2stw!4v1" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Itinerary -->
+<section id="itinerary" class="section fade-in">
+  <div class="section-label">Daily Itinerary</div>
+  <h2 class="section-title">每日行程</h2>
+
+  <div class="itinerary-day">
+    <div class="day-header">
+      <div class="day-number">01</div>
+      <div class="day-info">
+        <h3>抵達東京 · 淺草 · 晴空塔</h3>
+        <p>12月21日（日）· MIMARU STATION EAST</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot highlight"></div>
+        <div class="timeline-content">
+          <h4>🛬 12:50 抵達羽田機場</h4>
+          <p>CI 220 降落，辦理入境手續</p>
+          <div class="timeline-transport">🚃 京急線 → 寶町站</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h4>🏨 前往飯店 Check-in</h4>
+          <p>MIMARU東京 STATION EAST 入住</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h4>🏮 淺草寺</h4>
+          <p>感受江戶風情，逛仲見世商店街</p>
+          <div class="ticket-price">入場免費</div>
+          <div class="timeline-transport">🚃 都營淺草線 → 淺草站</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h4>🗼 晴空塔夜景</h4>
+          <p>欣賞東京壯麗夜景</p>
+          <div class="ticket-price">展望台套票 約¥3,100（成人）</div>
+          <div class="timeline-transport">🚃 東武晴空塔線 or 步行15-20分</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="itinerary-day">
+    <div class="day-header">
+      <div class="day-number">02</div>
+      <div class="day-info">
+        <h3>東京迪士尼樂園</h3>
+        <p>12月22日（一）· MIMARU STATION EAST</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot highlight"></div>
+        <div class="timeline-content">
+          <h4>🏰 東京迪士尼樂園 整日</h4>
+          <p>在夢想與魔法的王國度過一整天！建議早點出發搶熱門設施</p>
+          <div class="ticket-price">成人一日護照 約¥7,900–¥10,900（浮動票價）</div>
+          <div class="timeline-transport">🚃 JR京葉線 八丁堀 → 舞濱站</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="itinerary-day">
+    <div class="day-header">
+      <div class="day-number">03</div>
+      <div class="day-info">
+        <h3>換飯店 · 上野動物園</h3>
+        <p>12月23日（二）· 移至 MIMARU 池袋</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot highlight"></div>
+        <div class="timeline-content">
+          <h4>🧳 更換飯店</h4>
+          <p>退房後前往 MIMARU東京 池袋 入住</p>
+          <div class="timeline-transport">🚃 JR山手線 東京 → 池袋</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h4>🐼 上野動物園</h4>
+          <p>與可愛的動物們見面，有機會看到大熊貓！</p>
+          <div class="ticket-price">成人 ¥600 · 12歲以下兒童免費</div>
+          <div class="timeline-transport">🚃 JR山手線 池袋 → 上野站（公園口）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="itinerary-day">
+    <div class="day-header">
+      <div class="day-number">04</div>
+      <div class="day-info">
+        <h3>鎌倉 · 江之島點燈</h3>
+        <p>12月24日（三）平安夜 · MIMARU 池袋</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot highlight"></div>
+        <div class="timeline-content">
+          <h4>🚃 出發前往鎌倉</h4>
+          <p>從池袋搭乘JR湘南新宿線，免換車直達鎌倉</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h4>🙏 鎌倉大佛 & 長谷寺</h4>
+          <p>搭乘可愛的江之電，參觀雄偉大佛和擁有無敵海景的長谷寺</p>
+          <div class="ticket-price">大佛 ¥300 · 長谷寺 ¥400（成人）</div>
+          <div class="timeline-transport">🚃 江之電 鎌倉 → 長谷站</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h4>🍱 午餐 & 小町通商店街</h4>
+          <p>回到鎌倉站旁，享用午餐與特色小吃</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h4>🏝️ 江之島</h4>
+          <p>搭江之電欣賞沿途海岸風光</p>
+          <div class="timeline-transport">🚃 江之電 長谷 → 江之島站</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot highlight"></div>
+        <div class="timeline-content">
+          <h4>💡 湘南の宝石 點燈</h4>
+          <p>傍晚時分欣賞平安夜點燈，夢幻無比</p>
+          <div class="ticket-price">傍晚5點後庭園+展望燈塔套票 約¥1,000（成人）</div>
+          <div class="timeline-transport">🚃 回程：藤澤站 → JR湘南新宿線 → 池袋</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="itinerary-day">
+    <div class="day-header">
+      <div class="day-number">05</div>
+      <div class="day-info">
+        <h3>回程</h3>
+        <p>12月25日（四）· 聖誕節</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h4>🧳 收拾行李，前往羽田機場</h4>
+          <p>建議提前3小時抵達</p>
+          <div class="timeline-transport">🚃 JR山手線 池袋 → 品川 → 京急線 → 羽田機場</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot highlight"></div>
+        <div class="timeline-content">
+          <h4>✈ 14:15 CI 221 起飛</h4>
+          <p>羽田（HND）→ 台北松山（TSA）· 預計17:15抵達</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Photos -->
+<section class="photo-section" id="photos">
+  <div class="section">
+    <div class="section-label">Memories</div>
+    <h2 class="section-title">旅遊回憶</h2>
+
+    <div class="photo-upload-area" id="uploadArea" onclick="document.getElementById('photoInput').click()">
+      <svg class="upload-icon" viewBox="0 0 48 48" fill="none">
+        <rect x="6" y="10" width="36" height="28" rx="2" stroke="rgba(184,151,90,0.7)" stroke-width="1"/>
+        <circle cx="18" cy="22" r="4" stroke="rgba(184,151,90,0.7)" stroke-width="1"/>
+        <path d="M6 34l10-10 8 8 6-6 12 12" stroke="rgba(184,151,90,0.7)" stroke-width="1" stroke-linecap="round"/>
+        <path d="M30 18V12M27 15l3-3 3 3" stroke="rgba(184,151,90,0.7)" stroke-width="1" stroke-linecap="round"/>
+      </svg>
+      <div class="upload-text">
+        點擊上傳照片或影片<br>
+        <strong>iPhone / 電腦皆可直接上傳</strong><br>
+        支援 JPG、PNG、MOV、MP4 · 上傳後所有人都看得到
+      </div>
+    </div>
+    <input type="file" id="photoInput" multiple accept="image/*,video/*" style="display:none">
+
+    <div class="upload-progress" id="uploadProgress"></div>
+    <div class="media-grid" id="photoGrid"></div>
+    <div class="photo-empty" id="photoEmpty">還沒有照片，上傳第一張吧！</div>
+  </div>
+</section>
+
+<!-- Packing -->
+<section id="packing" class="section fade-in">
+  <div class="section-label">Packing List</div>
+  <h2 class="section-title">行李清單</h2>
+  <div class="packing-grid" id="packingGrid"></div>
+</section>
+
+<div class="ornament">✦ ✦ ✦</div>
+
+<footer>
+  <p>2025東京之旅 <strong>with 夢夢</strong> · 十二月廿一日至廿五日</p>
+</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="" style="max-width:90vw;max-height:85vh;object-fit:contain;display:none;">
+  <video id="lightboxVid" controls style="max-width:90vw;max-height:85vh;display:none;background:#000;"></video>
+</div>
+
+<script>
+const CLOUD_NAME = 'dahimm2nk';
+const UPLOAD_PRESET = 'travel_journal';
+const TRIP_TAG = 'tokyo-2025';
+
+let mediaItems = [];
+
+async function loadMedia() {
+  try {
+    const res = await fetch(`/.netlify/functions/get-photos?tag=${TRIP_TAG}`);
+    const data = await res.json();
+    mediaItems = (data.resources || []).map(r => ({
+      type: r.resource_type,
+      url: r.resource_type === 'video'
+        ? `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/q_auto/${r.public_id}.mp4`
+        : `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/q_auto,f_auto,w_1600/${r.public_id}`,
+      thumb: r.resource_type === 'video'
+        ? `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/q_auto,w_300,h_300,c_fill,so_1/${r.public_id}.jpg`
+        : `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/q_auto,f_auto,w_300,h_300,c_fill/${r.public_id}`
+    }));
+    renderMedia(mediaItems);
+  } catch(e) {
+    console.error('載入失敗:', e);
+    renderMedia([]);
+  }
+}
+
+function renderMedia(list) {
+  const grid = document.getElementById('photoGrid');
+  const empty = document.getElementById('photoEmpty');
+  if (!list || list.length === 0) { grid.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display = 'none';
+  grid.innerHTML = list.map((m, i) => {
+    if (m.type === 'image' || m.type === undefined) {
+      return `<div class="media-item" onclick="openLightbox('image','${m.url}')">
+        <img src="${m.thumb}" alt="東京照片 ${i+1}" loading="lazy">
+        <div class="media-overlay">
+          <div class="zoom-hint">點擊放大</div>
+        </div>
+      </div>`;
+    } else {
+      return `<div class="media-item" onclick="openLightbox('video','${m.url}')">
+        <img src="${m.thumb}" alt="東京影片 ${i+1}" loading="lazy">
+        <div class="media-overlay">
+          <div class="play-btn"><svg viewBox="0 0 24 24" fill="#1a1814"><polygon points="6,3 20,12 6,21"/></svg></div>
+        </div>
+        <div class="media-type-badge">影片</div>
+      </div>`;
+    }
+  }).join('');
+}
+
+document.getElementById('photoInput').addEventListener('change', async function(e) {
+  const files = Array.from(e.target.files);
+  if (!files.length) return;
+  const progress = document.getElementById('uploadProgress');
+  progress.classList.add('active');
+  let done = 0;
+
+  for (const file of files) {
+    const isVideo = file.type.startsWith('video');
+    progress.textContent = `上傳中… ${done+1} / ${files.length}${isVideo ? '（影片請耐心等候）' : ''}`;
+    const endpoint = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${isVideo ? 'video' : 'image'}/upload`;
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('upload_preset', UPLOAD_PRESET);
+    fd.append('tags', TRIP_TAG);
+
+    try {
+      const res = await fetch(endpoint, { method: 'POST', body: fd });
+      const data = await res.json();
+      if (data.error) { console.error('上傳錯誤:', data.error.message); continue; }
+      done++;
+    } catch(err) {
+      console.error('連線錯誤:', err);
+    }
+  }
+
+  if (done > 0) {
+    progress.textContent = `✓ 上傳完成！共 ${done} 個檔案`;
+    await loadMedia();
+  } else {
+    progress.textContent = `⚠️ 上傳失敗，請重試`;
+  }
+  setTimeout(() => { progress.classList.remove('active'); }, 2500);
+  this.value = '';
+});
+
+const uploadArea = document.getElementById('uploadArea');
+uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.style.borderColor='rgba(184,151,90,0.7)'; });
+uploadArea.addEventListener('dragleave', () => { uploadArea.style.borderColor='rgba(184,151,90,0.35)'; });
+uploadArea.addEventListener('drop', e => {
+  e.preventDefault(); uploadArea.style.borderColor='rgba(184,151,90,0.35)';
+  const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/') || f.type.startsWith('video/'));
+  if (!files.length) return;
+  const dt = new DataTransfer(); files.forEach(f => dt.items.add(f));
+  const input = document.getElementById('photoInput');
+  input.files = dt.files;
+  input.dispatchEvent(new Event('change'));
+});
+
+function openLightbox(type, src) {
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  const vid = document.getElementById('lightboxVid');
+  if (!lb || !img) return;
+  if (type === 'image') {
+    img.src = src;
+    img.style.display = 'block';
+    if (vid) { vid.style.display = 'none'; vid.pause(); vid.src = ''; }
+  } else {
+    if (vid) { vid.src = src; vid.style.display = 'block'; vid.play(); }
+    img.style.display = 'none'; img.src = '';
+  }
+  lb.classList.add('active');
+}
+function closeLightbox() {
+  const lb = document.getElementById('lightbox');
+  const vid = document.getElementById('lightboxVid');
+  const img = document.getElementById('lightboxImg');
+  if (lb) lb.classList.remove('active');
+  if (vid) { vid.pause(); vid.src = ''; }
+  if (img) img.src = '';
+}
+const lb = document.getElementById('lightbox');
+if (lb) lb.addEventListener('click', function(e) {
+  if (e.target === this) closeLightbox();
+});
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+window.addEventListener('load', loadMedia);
+
+renderPacking();
+</script>
+</body>
+</html>
