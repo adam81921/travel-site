@@ -4,21 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2025東京之旅 with 夢夢</title>
+<meta name="theme-color" content="#2a2420">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗾</text></svg>">
+<meta property="og:type" content="website">
+<meta property="og:title" content="東京之旅 2025 with 夢夢">
+<meta property="og:description" content="2025/12/21–25 東京親子行：淺草、晴空塔、迪士尼、上野動物園、鎌倉與江之島。完整行程與照片回憶。">
+<meta property="og:image" content="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1200&q=80">
+<meta property="og:url" content="https://aesthetic-baklava-7492d5.netlify.app/tokyo-2025.html">
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #1a1814;
-    --ink-light: #6b6560;
-    --ink-muted: #a09a94;
-    --paper: #faf8f4;
-    --paper-warm: #f3efe8;
+    --ink: #2a2420;
+    --ink-light: #6f655c;
+    --ink-muted: #9c9289;
+    --paper: #fcf8f1;
+    --paper-warm: #f4ece0;
     --paper-card: #ffffff;
-    --accent: #c4392d;
-    --accent-soft: #f0ddd9;
-    --gold: #b8975a;
-    --gold-soft: #f5eed8;
-    --border: rgba(26,24,20,0.12);
-    --border-soft: rgba(26,24,20,0.06);
+    --accent: #d1623f;
+    --accent-soft: #f3e0d8;
+    --gold: #c2964f;
+    --gold-soft: #f6efda;
+    --border: rgba(42,36,32,0.13);
+    --border-soft: rgba(42,36,32,0.06);
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
@@ -301,7 +308,7 @@
     border-color: rgba(184,151,90,0.55);
   }
   .upload-icon { width: 44px; height: 44px; margin: 0 auto 1rem; opacity: 0.35; }
-  .upload-text { font-size: 13px; color: rgba(250,248,244,0.4); letter-spacing: 0.08em; line-height: 1.8; }
+  .upload-text { font-size: 13px; color: rgba(250,248,244,0.6); letter-spacing: 0.08em; line-height: 1.8; }
   .upload-text strong { color: var(--gold); font-weight: 400; }
 
   .upload-progress {
@@ -358,44 +365,15 @@
   }
   .photo-item:hover .photo-delete { opacity: 1; }
   .photo-empty {
-    color: rgba(250,248,244,0.2);
+    color: rgba(250,248,244,0.45);
     font-size: 13px; letter-spacing: 0.1em;
     text-align: center; padding: 2rem 0;
   }
-
-  /* Packing */
-  .packing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 2rem;
+  .photo-count {
+    color: rgba(250,248,244,0.5);
+    font-size: 13px; letter-spacing: 0.1em;
+    margin-bottom: 1rem;
   }
-  .packing-category h4 {
-    font-size: 10px; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--accent);
-    margin-bottom: 1rem; padding-bottom: 0.5rem;
-    border-bottom: 0.5px solid var(--border);
-  }
-  .packing-item {
-    display: flex; align-items: center; gap: 0.75rem;
-    padding: 0.5rem 0;
-    border-bottom: 0.5px solid var(--border-soft);
-    cursor: pointer; transition: all 0.2s;
-  }
-  .packing-item:hover { padding-left: 4px; }
-  .packing-item input[type="checkbox"] {
-    appearance: none; width: 14px; height: 14px;
-    border: 0.5px solid var(--border);
-    flex-shrink: 0; cursor: pointer;
-    position: relative; transition: all 0.2s;
-  }
-  .packing-item input:checked { background: var(--accent); border-color: var(--accent); }
-  .packing-item input:checked::after {
-    content: '✓'; position: absolute;
-    top: -2px; left: 1px;
-    font-size: 10px; color: white;
-  }
-  .packing-item label { font-size: 13px; color: var(--ink-light); cursor: pointer; transition: all 0.2s; }
-  .packing-item input:checked + label { text-decoration: line-through; color: var(--ink-muted); }
 
   /* Lightbox */
   .lightbox {
@@ -413,6 +391,12 @@
     padding: 0.5rem; transition: color 0.2s;
   }
   .lightbox-close:hover { color: white; }
+  .lightbox-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.3); border:none; color:rgba(255,255,255,0.75); font-size:2.4rem; line-height:1; width:54px; height:54px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.2s, color 0.2s; z-index:1001; }
+  .lightbox-nav:hover { background:rgba(0,0,0,0.55); color:#fff; }
+  .lightbox-prev { left:1.2rem; padding-right:3px; }
+  .lightbox-next { right:1.2rem; padding-left:3px; }
+  .lightbox-counter { position:absolute; bottom:1.5rem; left:50%; transform:translateX(-50%); color:rgba(255,255,255,0.7); font-size:13px; letter-spacing:0.1em; }
+  @media (max-width:600px){ .lightbox-nav{ width:44px; height:44px; font-size:2rem; } .lightbox-prev{left:0.4rem;} .lightbox-next{right:0.4rem;} }
 
   .ornament {
     text-align: center; color: var(--gold);
@@ -422,33 +406,31 @@
   }
   footer {
     background: var(--ink);
-    color: rgba(250,248,244,0.3);
+    color: rgba(250,248,244,0.45);
     text-align: center; padding: 3rem 2rem;
     font-size: 11px; letter-spacing: 0.15em;
   }
   footer strong { color: var(--gold); font-weight: 400; }
 
 
-  /* Media grid - photos + videos */
-  .media-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 4px;
-  }
-  @media (min-width: 600px) {
-    .media-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-  }
+  /* Media grid - masonry (preserves each photo's natural shape, no cropping) */
+  .media-grid { columns: 2; column-gap: 8px; }
+  @media (min-width: 600px) { .media-grid { columns: 3; } }
+  @media (min-width: 980px) { .media-grid { columns: 4; } }
   .media-item {
-    aspect-ratio: 1; position: relative;
+    position: relative;
+    break-inside: avoid;
+    margin: 0 0 8px;
     overflow: hidden;
     background: rgba(250,248,244,0.05);
     cursor: pointer;
-    border-radius: 2px;
+    border-radius: 5px;
+    display: block;
   }
   .media-item img, .media-item video {
-    width: 100%; height: 100%;
+    width: 100%; height: auto;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: transform 0.5s ease;
     display: block;
   }
   .media-item:hover img, .media-item:hover video { transform: scale(1.08); }
@@ -527,7 +509,6 @@
     <a href="#hotels">🏨 住宿</a>
     <a href="#itinerary">🗓 行程</a>
     <a href="#photos">📷 照片回憶</a>
-    <a href="#packing">🧳 行李清單</a>
   </div>
 </nav>
 
@@ -815,16 +796,10 @@
     <input type="file" id="photoInput" multiple accept="image/*,video/*" style="display:none">
 
     <div class="upload-progress" id="uploadProgress"></div>
+    <div class="photo-count" id="photoCount"></div>
     <div class="media-grid" id="photoGrid"></div>
     <div class="photo-empty" id="photoEmpty">還沒有照片，上傳第一張吧！</div>
   </div>
-</section>
-
-<!-- Packing -->
-<section id="packing" class="section fade-in">
-  <div class="section-label">Packing List</div>
-  <h2 class="section-title">行李清單</h2>
-  <div class="packing-grid" id="packingGrid"></div>
 </section>
 
 <div class="ornament">✦ ✦ ✦</div>
@@ -835,9 +810,12 @@
 
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox">
-  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="關閉">✕</button>
+  <button class="lightbox-nav lightbox-prev" onclick="prevMedia(event)" aria-label="上一張">‹</button>
+  <button class="lightbox-nav lightbox-next" onclick="nextMedia(event)" aria-label="下一張">›</button>
   <img id="lightboxImg" src="" alt="" style="max-width:90vw;max-height:85vh;object-fit:contain;display:none;">
   <video id="lightboxVid" controls style="max-width:90vw;max-height:85vh;display:none;background:#000;"></video>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
 </div>
 
 <script>
@@ -857,8 +835,8 @@ async function loadMedia() {
         ? `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/q_auto/${r.public_id}.mp4`
         : `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/q_auto,f_auto,w_1600/${r.public_id}`,
       thumb: r.resource_type === 'video'
-        ? `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/q_auto,w_300,h_300,c_fill,so_1/${r.public_id}.jpg`
-        : `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/q_auto,f_auto,w_300,h_300,c_fill/${r.public_id}`
+        ? `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/q_auto,w_500,so_1/${r.public_id}.jpg`
+        : `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/q_auto,f_auto,w_500/${r.public_id}`
     }));
     renderMedia(mediaItems);
   } catch(e) {
@@ -870,18 +848,20 @@ async function loadMedia() {
 function renderMedia(list) {
   const grid = document.getElementById('photoGrid');
   const empty = document.getElementById('photoEmpty');
-  if (!list || list.length === 0) { grid.innerHTML=''; empty.style.display='block'; return; }
+  const count = document.getElementById('photoCount');
+  if (!list || list.length === 0) { grid.innerHTML=''; empty.style.display='block'; if (count) count.textContent=''; return; }
   empty.style.display = 'none';
+  if (count) count.textContent = `共 ${list.length} 個回憶 · 點擊放大瀏覽`;
   grid.innerHTML = list.map((m, i) => {
     if (m.type === 'image' || m.type === undefined) {
-      return `<div class="media-item" onclick="openLightbox('image','${m.url}')">
+      return `<div class="media-item" onclick="openLightbox(${i})">
         <img src="${m.thumb}" alt="東京照片 ${i+1}" loading="lazy">
         <div class="media-overlay">
           <div class="zoom-hint">點擊放大</div>
         </div>
       </div>`;
     } else {
-      return `<div class="media-item" onclick="openLightbox('video','${m.url}')">
+      return `<div class="media-item" onclick="openLightbox(${i})">
         <img src="${m.thumb}" alt="東京影片 ${i+1}" loading="lazy">
         <div class="media-overlay">
           <div class="play-btn"><svg viewBox="0 0 24 24" fill="#1a1814"><polygon points="6,3 20,12 6,21"/></svg></div>
@@ -898,9 +878,16 @@ document.getElementById('photoInput').addEventListener('change', async function(
   const progress = document.getElementById('uploadProgress');
   progress.classList.add('active');
   let done = 0;
+  let failed = 0;
+  const tooBig = [];
 
   for (const file of files) {
     const isVideo = file.type.startsWith('video');
+    const maxMB = isVideo ? 100 : 10;
+    if (file.size > maxMB * 1024 * 1024) {
+      tooBig.push(`${file.name}（${Math.round(file.size/1048576)}MB，${isVideo ? '影片' : '照片'}上限 ${maxMB}MB${isVideo ? '，可先用手機內建編輯剪短再上傳' : ''}）`);
+      continue;
+    }
     progress.textContent = `上傳中… ${done+1} / ${files.length}${isVideo ? '（影片請耐心等候）' : ''}`;
     const endpoint = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${isVideo ? 'video' : 'image'}/upload`;
     const fd = new FormData();
@@ -911,20 +898,22 @@ document.getElementById('photoInput').addEventListener('change', async function(
     try {
       const res = await fetch(endpoint, { method: 'POST', body: fd });
       const data = await res.json();
-      if (data.error) { console.error('上傳錯誤:', data.error.message); continue; }
+      if (data.error) { console.error('上傳錯誤:', data.error.message); failed++; continue; }
       done++;
     } catch(err) {
       console.error('連線錯誤:', err);
+      failed++;
     }
   }
 
-  if (done > 0) {
-    progress.textContent = `✓ 上傳完成！共 ${done} 個檔案`;
-    await loadMedia();
-  } else {
-    progress.textContent = `⚠️ 上傳失敗，請重試`;
-  }
-  setTimeout(() => { progress.classList.remove('active'); }, 2500);
+  const msgs = [];
+  if (done > 0) msgs.push(`✓ 上傳完成！共 ${done} 個檔案`);
+  if (failed > 0) msgs.push(`⚠️ ${failed} 個檔案上傳失敗，請檢查網路後重試`);
+  if (tooBig.length > 0) msgs.push(`⚠️ ${tooBig.length} 個檔案太大未上傳：${tooBig.join('；')}`);
+  progress.textContent = msgs.join('　');
+  if (done > 0) await loadMedia();
+  const holdMs = (failed > 0 || tooBig.length > 0) ? 12000 : 2500;
+  setTimeout(() => { progress.classList.remove('active'); }, holdMs);
   this.value = '';
 });
 
@@ -941,21 +930,29 @@ uploadArea.addEventListener('drop', e => {
   input.dispatchEvent(new Event('change'));
 });
 
-function openLightbox(type, src) {
-  const lb = document.getElementById('lightbox');
+let currentIndex = 0;
+function openLightbox(index) {
+  currentIndex = index;
+  showMedia();
+  document.getElementById('lightbox').classList.add('active');
+}
+function showMedia() {
+  const m = mediaItems[currentIndex];
+  if (!m) return;
   const img = document.getElementById('lightboxImg');
   const vid = document.getElementById('lightboxVid');
-  if (!lb || !img) return;
-  if (type === 'image') {
-    img.src = src;
-    img.style.display = 'block';
-    if (vid) { vid.style.display = 'none'; vid.pause(); vid.src = ''; }
-  } else {
-    if (vid) { vid.src = src; vid.style.display = 'block'; vid.play(); }
+  const counter = document.getElementById('lightboxCounter');
+  if (m.type === 'video') {
+    if (vid) { vid.src = m.url; vid.style.display = 'block'; }
     img.style.display = 'none'; img.src = '';
+  } else {
+    img.src = m.url; img.style.display = 'block';
+    if (vid) { vid.pause(); vid.style.display = 'none'; vid.src = ''; }
   }
-  lb.classList.add('active');
+  if (counter) counter.textContent = (currentIndex + 1) + ' / ' + mediaItems.length;
 }
+function nextMedia(e) { if (e) e.stopPropagation(); if (!mediaItems.length) return; currentIndex = (currentIndex + 1) % mediaItems.length; showMedia(); }
+function prevMedia(e) { if (e) e.stopPropagation(); if (!mediaItems.length) return; currentIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length; showMedia(); }
 function closeLightbox() {
   const lb = document.getElementById('lightbox');
   const vid = document.getElementById('lightboxVid');
@@ -968,6 +965,22 @@ const lb = document.getElementById('lightbox');
 if (lb) lb.addEventListener('click', function(e) {
   if (e.target === this) closeLightbox();
 });
+document.addEventListener('keydown', function(e) {
+  if (!lb || !lb.classList.contains('active')) return;
+  if (e.key === 'Escape') closeLightbox();
+  else if (e.key === 'ArrowRight') nextMedia();
+  else if (e.key === 'ArrowLeft') prevMedia();
+});
+let touchStartX = null;
+if (lb) {
+  lb.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', e => {
+    if (touchStartX === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) { dx < 0 ? nextMedia() : prevMedia(); }
+    touchStartX = null;
+  }, { passive: true });
+}
 
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
@@ -975,8 +988,6 @@ const observer = new IntersectionObserver(entries => {
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
 window.addEventListener('load', loadMedia);
-
-renderPacking();
 </script>
 </body>
 </html>

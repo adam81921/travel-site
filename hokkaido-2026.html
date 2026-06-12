@@ -4,21 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2026北海道之旅</title>
+<meta name="theme-color" content="#2a2420">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗾</text></svg>">
+<meta property="og:type" content="website">
+<meta property="og:title" content="北海道之旅 2026 · 7天6夜親子環島">
+<meta property="og:description" content="2026/9/5–11 北海道親子環島：札幌、旭山動物園、美瑛富良野、洞爺湖花火、小樽運河。每日行程、開車路線地圖與住宿。">
+<meta property="og:image" content="https://res.cloudinary.com/dahimm2nk/image/upload/w_1200,q_auto,f_auto/v1774599765/beginnerPhoto_lndiyj.jpg">
+<meta property="og:url" content="https://aesthetic-baklava-7492d5.netlify.app/hokkaido-2026.html">
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
   :root {
-    --ink: #1a1814;
-    --ink-light: #6b6560;
-    --ink-muted: #a09a94;
-    --paper: #faf8f4;
-    --paper-warm: #f3efe8;
+    --ink: #2a2420;
+    --ink-light: #6f655c;
+    --ink-muted: #9c9289;
+    --paper: #fcf8f1;
+    --paper-warm: #f4ece0;
     --paper-card: #ffffff;
-    --accent: #c4392d;
-    --gold: #b8975a;
-    --border: rgba(26,24,20,0.12);
-    --border-soft: rgba(26,24,20,0.06);
+    --accent: #d1623f;
+    --gold: #c2964f;
+    --border: rgba(42,36,32,0.13);
+    --border-soft: rgba(42,36,32,0.06);
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
@@ -118,6 +125,8 @@
     border-bottom: 2px solid transparent; transition: all 0.2s;
   }
   nav a:hover { color: var(--ink); border-bottom-color: var(--accent); }
+  nav a.nav-day { padding: 1.1rem 0.8rem; font-family:'M PLUS Rounded 1c',sans-serif; font-weight:500; }
+  nav a.nav-day.is-today { color: var(--accent); border-bottom-color: var(--accent); }
 
   .section { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; }
   .section-label {
@@ -156,7 +165,7 @@
     font-size: clamp(1.5rem,3.5vw,2rem); font-weight:400; color:var(--ink);
     margin: 3.5rem 0 1.75rem; display:flex; align-items:center; gap:0.6rem;
   }
-  .itin { border-top:0.5px solid var(--border); margin-bottom:1rem; }
+  .itin { margin-bottom:1rem; }
   .day {
     display:grid; grid-template-columns:92px 1fr; gap:1.5rem;
     padding:1.75rem 0.25rem; border-bottom:0.5px solid var(--border);
@@ -170,7 +179,17 @@
   @media (max-width:600px){ .day{ grid-template-columns:56px 1fr; gap:0.9rem; } .day-d{font-size:1.35rem;} .day-body p{font-size:15.5px;} }
 
   /* Expanded day blocks (map + route + spots) */
-  .dayx { padding:2.5rem 0 2.75rem; border-bottom:0.5px solid var(--border); }
+  .dayx { background:var(--paper-card); border:0.5px solid var(--border); border-radius:14px; padding:2rem 1.8rem 2.1rem; margin-bottom:1.5rem; box-shadow:0 6px 24px rgba(42,36,32,0.06); scroll-margin-top:64px; }
+  .dayx.today { border:2px solid var(--accent); box-shadow:0 8px 28px rgba(209,98,63,0.18); }
+  .dayx.today .dayx-badge::after { content:' · 今天'; }
+  .today-btn {
+    position:fixed; bottom:1.4rem; right:1.4rem; z-index:300;
+    background:var(--accent); color:#fff; text-decoration:none;
+    font-size:15px; font-weight:500; letter-spacing:0.05em;
+    padding:0.8rem 1.3rem; border-radius:99px;
+    box-shadow:0 6px 20px rgba(209,98,63,0.45);
+  }
+  @media (max-width:600px){ .dayx{ padding:1.5rem 1.15rem 1.6rem; border-radius:11px; } }
   .dayx-head { display:flex; align-items:flex-start; gap:1rem; }
   .dayx-badge { font-family:'M PLUS Rounded 1c',sans-serif; font-size:1.1rem; font-weight:500; color:#fff; background:var(--accent); border-radius:6px; padding:0.5rem 0.85rem; line-height:1; flex-shrink:0; letter-spacing:0.03em; }
   .dayx-head h4 { font-size:1.75rem; font-weight:500; color:var(--ink); line-height:1.35; margin-bottom:6px; }
@@ -265,7 +284,7 @@
   }
   .photo-upload-area:hover { background: rgba(250,248,244,0.06); border-color: rgba(184,151,90,0.6); }
   .upload-icon { width: 44px; height: 44px; margin: 0 auto 1rem; opacity: 0.35; }
-  .upload-text { font-size: 14px; color: rgba(250,248,244,0.4); letter-spacing: 0.08em; line-height: 1.9; }
+  .upload-text { font-size: 14px; color: rgba(250,248,244,0.6); letter-spacing: 0.08em; line-height: 1.9; }
   .upload-text strong { color: var(--gold); font-weight: 400; }
   .upload-progress {
     display: none; background: rgba(250,248,244,0.06);
@@ -282,7 +301,8 @@
   .photo-item:hover .photo-overlay { background:rgba(26,24,20,0.45); }
   .photo-caption { font-size:12px; color:white; opacity:0; transition:opacity 0.3s; letter-spacing:0.05em; }
   .photo-item:hover .photo-caption { opacity:1; }
-  .photo-empty { color:rgba(250,248,244,0.2); font-size:14px; letter-spacing:0.1em; text-align:center; padding:2rem 0; }
+  .photo-empty { color:rgba(250,248,244,0.45); font-size:14px; letter-spacing:0.1em; text-align:center; padding:2rem 0; }
+  .photo-count { color:rgba(250,248,244,0.5); font-size:13px; letter-spacing:0.1em; margin-bottom:1rem; }
 
   /* Lightbox */
   .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.93); z-index:1000; align-items:center; justify-content:center; }
@@ -290,32 +310,36 @@
   .lightbox img { max-width:90vw; max-height:85vh; object-fit:contain; }
   .lightbox-close { position:absolute; top:1.5rem; right:1.5rem; background:none; border:none; color:rgba(255,255,255,0.4); font-size:1.5rem; cursor:pointer; padding:0.5rem; transition:color 0.2s; }
   .lightbox-close:hover { color:white; }
+  .lightbox-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.3); border:none; color:rgba(255,255,255,0.75); font-size:2.4rem; line-height:1; width:54px; height:54px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.2s, color 0.2s; z-index:1001; }
+  .lightbox-nav:hover { background:rgba(0,0,0,0.55); color:#fff; }
+  .lightbox-prev { left:1.2rem; padding-right:3px; }
+  .lightbox-next { right:1.2rem; padding-left:3px; }
+  .lightbox-counter { position:absolute; bottom:1.5rem; left:50%; transform:translateX(-50%); color:rgba(255,255,255,0.7); font-size:13px; letter-spacing:0.1em; }
+  @media (max-width:600px){ .lightbox-nav{ width:44px; height:44px; font-size:2rem; } .lightbox-prev{left:0.4rem;} .lightbox-next{right:0.4rem;} }
 
-  .ornament { text-align:center; color:var(--gold); margin:3rem 0; font-family:'Cormorant Garamond',serif; font-size:1.5rem; letter-spacing:0.5em; opacity:0.4; }
-  footer { background:var(--ink); color:rgba(250,248,244,0.3); text-align:center; padding:3rem 2rem; font-size:13px; letter-spacing:0.15em; }
+  .ornament { text-align:center; color:var(--gold); margin:3rem 0; font-family:'M PLUS Rounded 1c','Noto Sans TC',sans-serif; font-size:1.5rem; letter-spacing:0.5em; opacity:0.4; }
+  footer { background:var(--ink); color:rgba(250,248,244,0.45); text-align:center; padding:3rem 2rem; font-size:13px; letter-spacing:0.15em; }
   footer strong { color:var(--gold); font-weight:400; }
 
 
-  /* Media grid - photos + videos */
-  .media-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 4px;
-  }
-  @media (min-width: 600px) {
-    .media-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-  }
+  /* Media grid - masonry (preserves each photo's natural shape, no cropping) */
+  .media-grid { columns: 2; column-gap: 8px; }
+  @media (min-width: 600px) { .media-grid { columns: 3; } }
+  @media (min-width: 980px) { .media-grid { columns: 4; } }
   .media-item {
-    aspect-ratio: 1; position: relative;
+    position: relative;
+    break-inside: avoid;
+    margin: 0 0 8px;
     overflow: hidden;
     background: rgba(250,248,244,0.05);
     cursor: pointer;
-    border-radius: 2px;
+    border-radius: 5px;
+    display: block;
   }
   .media-item img, .media-item video {
-    width: 100%; height: 100%;
+    width: 100%; height: auto;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: transform 0.5s ease;
     display: block;
   }
   .media-item:hover img, .media-item:hover video { transform: scale(1.08); }
@@ -386,7 +410,14 @@
 <nav>
   <div class="nav-inner">
     <a href="#flights">✈ 航班</a>
-    <a href="#planning">📋 行程規劃</a>
+    <a href="#planning">📋 行程</a>
+    <a href="#d1" class="nav-day">D1</a>
+    <a href="#d2" class="nav-day">D2</a>
+    <a href="#d3" class="nav-day">D3</a>
+    <a href="#d4" class="nav-day">D4</a>
+    <a href="#d5" class="nav-day">D5</a>
+    <a href="#d6" class="nav-day">D6</a>
+    <a href="#d7" class="nav-day">D7</a>
     <a href="#photos">📷 照片回憶</a>
   </div>
 </nav>
@@ -450,7 +481,7 @@
   <div class="itin">
 
     <!-- D1 -->
-    <article class="dayx">
+    <article class="dayx" id="d1">
       <div class="dayx-head">
         <span class="dayx-badge">D1</span>
         <div><h4>抵達札幌 · 安頓休息</h4><div class="dayx-date">9/5（六）· 車程 55 分 · 宿 <span class="stay">札幌</span></div></div>
@@ -473,7 +504,7 @@
     </article>
 
     <!-- D2 -->
-    <article class="dayx">
+    <article class="dayx" id="d2">
       <div class="dayx-head">
         <span class="dayx-badge">D2</span>
         <div><h4>札幌 → 旭川 · 旭山動物園</h4><div class="dayx-date">9/6（日）· 車程 2h · 宿 <span class="stay">OMO7 旭川</span></div></div>
@@ -497,7 +528,7 @@
     </article>
 
     <!-- D3 -->
-    <article class="dayx">
+    <article class="dayx" id="d3">
       <div class="dayx-head">
         <span class="dayx-badge">D3</span>
         <div><h4>旭川 → 美瑛 → 富良野</h4><div class="dayx-date">9/7（一）· 車程 1h10 · 宿 <span class="stay">新富良野王子飯店</span></div></div>
@@ -524,7 +555,7 @@
     </article>
 
     <!-- D4 -->
-    <article class="dayx">
+    <article class="dayx" id="d4">
       <div class="dayx-head">
         <span class="dayx-badge">D4</span>
         <div><h4>富良野 → 洞爺湖（最長拉車日）</h4><div class="dayx-date">9/8（二）· 車程 3h30 · 宿 <span class="stay">乃之風 Resort</span></div></div>
@@ -549,7 +580,7 @@
     </article>
 
     <!-- D5 -->
-    <article class="dayx">
+    <article class="dayx" id="d5">
       <div class="dayx-head">
         <span class="dayx-badge">D5</span>
         <div><h4>洞爺湖 → 小樽</h4><div class="dayx-date">9/9（三）· 車程 2h12 · 宿 <span class="stay">Hotel Sonia 小樽</span></div></div>
@@ -577,7 +608,7 @@
     </article>
 
     <!-- D6 -->
-    <article class="dayx">
+    <article class="dayx" id="d6">
       <div class="dayx-head">
         <span class="dayx-badge">D6</span>
         <div><h4>小樽 → 札幌親子日</h4><div class="dayx-date">9/10（四）· 車程 50 分 · 宿 <span class="stay">札幌</span></div></div>
@@ -603,7 +634,7 @@
     </article>
 
     <!-- D7 -->
-    <article class="dayx">
+    <article class="dayx" id="d7">
       <div class="dayx-head">
         <span class="dayx-badge">D7</span>
         <div><h4>機場樂園 → 回程</h4><div class="dayx-date">9/11（五）· 車程 55 分 · <span class="stay">回家</span></div></div>
@@ -668,6 +699,7 @@
     </div>
     <input type="file" id="photoInput" multiple accept="image/*,video/*" style="display:none">
     <div class="upload-progress" id="uploadProgress"></div>
+    <div class="photo-count" id="photoCount"></div>
     <div class="media-grid" id="photoGrid"></div>
     <div class="photo-empty" id="photoEmpty">旅程結束後在這裡上傳美麗的北海道回憶！</div>
   </div>
@@ -680,9 +712,12 @@
 </footer>
 
 <div class="lightbox" id="lightbox">
-  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="關閉">✕</button>
+  <button class="lightbox-nav lightbox-prev" onclick="prevMedia(event)" aria-label="上一張">‹</button>
+  <button class="lightbox-nav lightbox-next" onclick="nextMedia(event)" aria-label="下一張">›</button>
   <img id="lightboxImg" src="" alt="" style="max-width:90vw;max-height:85vh;object-fit:contain;display:none;">
   <video id="lightboxVid" controls style="max-width:90vw;max-height:85vh;display:none;background:#000;"></video>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
 </div>
 
 <script>
@@ -702,8 +737,8 @@ async function loadMedia() {
         ? `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/q_auto/${r.public_id}.mp4`
         : `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/q_auto,f_auto,w_1600/${r.public_id}`,
       thumb: r.resource_type === 'video'
-        ? `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/q_auto,w_300,h_300,c_fill,so_1/${r.public_id}.jpg`
-        : `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/q_auto,f_auto,w_300,h_300,c_fill/${r.public_id}`
+        ? `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/q_auto,w_500,so_1/${r.public_id}.jpg`
+        : `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/q_auto,f_auto,w_500/${r.public_id}`
     }));
     renderMedia(mediaItems);
   } catch(e) {
@@ -715,18 +750,20 @@ async function loadMedia() {
 function renderMedia(list) {
   const grid = document.getElementById('photoGrid');
   const empty = document.getElementById('photoEmpty');
-  if (!list || list.length === 0) { grid.innerHTML=''; empty.style.display='block'; return; }
+  const count = document.getElementById('photoCount');
+  if (!list || list.length === 0) { grid.innerHTML=''; empty.style.display='block'; if (count) count.textContent=''; return; }
   empty.style.display = 'none';
+  if (count) count.textContent = `\u5171 ${list.length} \u500b\u56de\u61b6 \u00b7 \u9ede\u64ca\u653e\u5927\u700f\u89bd`;
   grid.innerHTML = list.map((m, i) => {
     if (m.type === 'image' || m.type === undefined) {
-      return `<div class="media-item" onclick="openLightbox('image','${m.url}')">
+      return `<div class="media-item" onclick="openLightbox(${i})">
         <img src="${m.thumb}" alt="北海道照片 ${i+1}" loading="lazy">
         <div class="media-overlay">
           <div class="zoom-hint">點擊放大</div>
         </div>
       </div>`;
     } else {
-      return `<div class="media-item" onclick="openLightbox('video','${m.url}')">
+      return `<div class="media-item" onclick="openLightbox(${i})">
         <img src="${m.thumb}" alt="北海道影片 ${i+1}" loading="lazy">
         <div class="media-overlay">
           <div class="play-btn"><svg viewBox="0 0 24 24" fill="#1a1814"><polygon points="6,3 20,12 6,21"/></svg></div>
@@ -743,9 +780,16 @@ document.getElementById('photoInput').addEventListener('change', async function(
   const progress = document.getElementById('uploadProgress');
   progress.classList.add('active');
   let done = 0;
+  let failed = 0;
+  const tooBig = [];
 
   for (const file of files) {
     const isVideo = file.type.startsWith('video');
+    const maxMB = isVideo ? 100 : 10;
+    if (file.size > maxMB * 1024 * 1024) {
+      tooBig.push(`${file.name}（${Math.round(file.size/1048576)}MB，${isVideo ? '影片' : '照片'}上限 ${maxMB}MB${isVideo ? '，可先用手機內建編輯剪短再上傳' : ''}）`);
+      continue;
+    }
     progress.textContent = `上傳中… ${done+1} / ${files.length}${isVideo ? '（影片請耐心等候）' : ''}`;
     const endpoint = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${isVideo ? 'video' : 'image'}/upload`;
     const fd = new FormData();
@@ -756,20 +800,22 @@ document.getElementById('photoInput').addEventListener('change', async function(
     try {
       const res = await fetch(endpoint, { method: 'POST', body: fd });
       const data = await res.json();
-      if (data.error) { console.error('上傳錯誤:', data.error.message); continue; }
+      if (data.error) { console.error('上傳錯誤:', data.error.message); failed++; continue; }
       done++;
     } catch(err) {
       console.error('連線錯誤:', err);
+      failed++;
     }
   }
 
-  if (done > 0) {
-    progress.textContent = `✓ 上傳完成！共 ${done} 個檔案`;
-    await loadMedia();
-  } else {
-    progress.textContent = `⚠️ 上傳失敗，請重試`;
-  }
-  setTimeout(() => { progress.classList.remove('active'); }, 2500);
+  const msgs = [];
+  if (done > 0) msgs.push(`✓ 上傳完成！共 ${done} 個檔案`);
+  if (failed > 0) msgs.push(`⚠️ ${failed} 個檔案上傳失敗，請檢查網路後重試`);
+  if (tooBig.length > 0) msgs.push(`⚠️ ${tooBig.length} 個檔案太大未上傳：${tooBig.join('；')}`);
+  progress.textContent = msgs.join('　');
+  if (done > 0) await loadMedia();
+  const holdMs = (failed > 0 || tooBig.length > 0) ? 12000 : 2500;
+  setTimeout(() => { progress.classList.remove('active'); }, holdMs);
   this.value = '';
 });
 
@@ -786,21 +832,29 @@ uploadArea.addEventListener('drop', e => {
   input.dispatchEvent(new Event('change'));
 });
 
-function openLightbox(type, src) {
-  const lb = document.getElementById('lightbox');
+let currentIndex = 0;
+function openLightbox(index) {
+  currentIndex = index;
+  showMedia();
+  document.getElementById('lightbox').classList.add('active');
+}
+function showMedia() {
+  const m = mediaItems[currentIndex];
+  if (!m) return;
   const img = document.getElementById('lightboxImg');
   const vid = document.getElementById('lightboxVid');
-  if (!lb || !img) return;
-  if (type === 'image') {
-    img.src = src;
-    img.style.display = 'block';
-    if (vid) { vid.style.display = 'none'; vid.pause(); vid.src = ''; }
-  } else {
-    if (vid) { vid.src = src; vid.style.display = 'block'; vid.play(); }
+  const counter = document.getElementById('lightboxCounter');
+  if (m.type === 'video') {
+    if (vid) { vid.src = m.url; vid.style.display = 'block'; }
     img.style.display = 'none'; img.src = '';
+  } else {
+    img.src = m.url; img.style.display = 'block';
+    if (vid) { vid.pause(); vid.style.display = 'none'; vid.src = ''; }
   }
-  lb.classList.add('active');
+  if (counter) counter.textContent = (currentIndex + 1) + ' / ' + mediaItems.length;
 }
+function nextMedia(e) { if (e) e.stopPropagation(); if (!mediaItems.length) return; currentIndex = (currentIndex + 1) % mediaItems.length; showMedia(); }
+function prevMedia(e) { if (e) e.stopPropagation(); if (!mediaItems.length) return; currentIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length; showMedia(); }
 function closeLightbox() {
   const lb = document.getElementById('lightbox');
   const vid = document.getElementById('lightboxVid');
@@ -813,6 +867,22 @@ const lb = document.getElementById('lightbox');
 if (lb) lb.addEventListener('click', function(e) {
   if (e.target === this) closeLightbox();
 });
+document.addEventListener('keydown', function(e) {
+  if (!lb || !lb.classList.contains('active')) return;
+  if (e.key === 'Escape') closeLightbox();
+  else if (e.key === 'ArrowRight') nextMedia();
+  else if (e.key === 'ArrowLeft') prevMedia();
+});
+let touchStartX = null;
+if (lb) {
+  lb.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', e => {
+    if (touchStartX === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) { dx < 0 ? nextMedia() : prevMedia(); }
+    touchStartX = null;
+  }, { passive: true });
+}
 
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
@@ -859,11 +929,29 @@ function initDayMaps(){
       const icon = L.divIcon({ className:'', html:'<div class="num-pin"><span>'+(i+1)+'</span></div>', iconSize:[26,26], iconAnchor:[13,26], popupAnchor:[0,-24] });
       L.marker([lat,lng], {icon}).addTo(map).bindPopup((i+1)+'. '+name);
     });
-    map.fitBounds(L.latLngBounds((route && route.length>1) ? route : mll).pad(0.15));
-    setTimeout(() => map.invalidateSize(), 400);
+    const bounds = L.latLngBounds((route && route.length>1) ? route : mll).pad(0.15);
+    map.fitBounds(bounds);
+    setTimeout(() => { map.invalidateSize(); map.fitBounds(bounds); }, 400);
   });
 }
 window.addEventListener('load', initDayMaps);
+
+/* During the trip (9/5-9/11), highlight today's card and show a quick-jump button */
+(function(){
+  const start = new Date('2026-09-05T00:00:00+09:00');
+  const dayN = Math.floor((Date.now() - start.getTime()) / 86400000) + 1;
+  if (dayN < 1 || dayN > 7) return;
+  const card = document.getElementById('d' + dayN);
+  if (!card) return;
+  card.classList.add('today');
+  const navLink = document.querySelector('nav a[href="#d' + dayN + '"]');
+  if (navLink) navLink.classList.add('is-today');
+  const btn = document.createElement('a');
+  btn.className = 'today-btn';
+  btn.href = '#d' + dayN;
+  btn.textContent = '\ud83d\udccd \u4eca\u65e5\u884c\u7a0b D' + dayN;
+  document.body.appendChild(btn);
+})();
 
 </script>
 </body>

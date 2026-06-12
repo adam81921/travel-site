@@ -23,7 +23,8 @@ exports.handler = async (event) => {
     },
     body: JSON.stringify({
       expression: `tags:${tag}`,
-      max_results: 100
+      sort_by: [{ created_at: 'asc' }],
+      max_results: 500
     })
   });
 
