@@ -1,0 +1,132 @@
+/* ============================================================
+   共用照片牆樣式（所有行程頁共用）
+   依賴頁面 :root 的 CSS 變數：--ink --gold --paper --accent
+   ============================================================ */
+
+.photo-section { background: var(--ink, #2a2420); padding: 5rem 0; }
+.photo-section .section { padding-top: 0; padding-bottom: 0; }
+.photo-section .section-label { color: var(--gold, #c2964f); }
+.photo-section .section-label::after { background: rgba(184,151,90,0.3); }
+.photo-section .section-title { color: var(--paper, #fcf8f1); }
+
+/* 上傳區 */
+.photo-upload-area {
+  border: 1px dashed rgba(184,151,90,0.35);
+  background: rgba(250,248,244,0.03);
+  padding: 3rem 2rem; text-align: center;
+  cursor: pointer; transition: all 0.3s; margin-bottom: 1.5rem;
+}
+.photo-upload-area:hover { background: rgba(250,248,244,0.06); border-color: rgba(184,151,90,0.6); }
+.upload-icon { width: 44px; height: 44px; margin: 0 auto 1rem; opacity: 0.35; }
+.upload-text { font-size: 14px; color: rgba(250,248,244,0.6); letter-spacing: 0.08em; line-height: 1.9; }
+.upload-text strong { color: var(--gold, #c2964f); font-weight: 400; }
+.upload-progress {
+  display: none; background: rgba(250,248,244,0.06);
+  border: 0.5px solid rgba(184,151,90,0.3);
+  padding: 1rem 1.5rem; margin-bottom: 1rem;
+  color: rgba(250,248,244,0.6); font-size: 13px; letter-spacing: 0.05em;
+}
+.upload-progress.active { display: block; }
+.photo-empty { color: rgba(250,248,244,0.45); font-size: 14px; letter-spacing: 0.1em; text-align: center; padding: 2rem 0; }
+.photo-count { color: rgba(250,248,244,0.5); font-size: 13px; letter-spacing: 0.1em; margin-bottom: 1rem; -webkit-user-select: none; user-select: none; }
+
+/* 按日分組 */
+.pg-group { margin-bottom: 2.2rem; }
+.pg-head {
+  display: flex; align-items: baseline; gap: 0.8rem;
+  color: var(--gold, #c2964f); font-size: 15px; letter-spacing: 0.12em;
+  margin-bottom: 0.8rem;
+}
+.pg-head::after { content: ''; flex: 1; height: 0.5px; background: rgba(184,151,90,0.25); }
+.pg-head .pg-date { color: rgba(250,248,244,0.45); font-size: 12.5px; letter-spacing: 0.08em; }
+
+/* 瀑布流（保留原始比例不裁切） */
+.media-grid { columns: 2; column-gap: 8px; }
+@media (min-width: 600px) { .media-grid { columns: 3; } }
+@media (min-width: 980px) { .media-grid { columns: 4; } }
+.media-item {
+  position: relative;
+  break-inside: avoid;
+  margin: 0 0 8px;
+  overflow: hidden;
+  background: rgba(250,248,244,0.05);
+  cursor: pointer;
+  border-radius: 5px;
+  display: block;
+}
+.media-item img, .media-item video {
+  width: 100%; height: auto;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  display: block;
+}
+.media-item:hover img, .media-item:hover video { transform: scale(1.08); }
+.media-overlay {
+  position: absolute; inset: 0;
+  background: rgba(26,24,20,0);
+  transition: background 0.3s;
+  display: flex; align-items: center; justify-content: center;
+}
+.media-item:hover .media-overlay { background: rgba(26,24,20,0.45); }
+.zoom-hint {
+  font-size: 11px; color: white; opacity: 0;
+  transition: opacity 0.3s; letter-spacing: 0.08em;
+  background: rgba(26,24,20,0.5);
+  padding: 4px 10px;
+}
+.media-item:hover .zoom-hint { opacity: 1; }
+.play-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(250,248,244,0.9);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.3s; flex-shrink: 0;
+}
+.play-btn svg { width: 16px; height: 16px; margin-left: 3px; }
+.media-item:hover .play-btn { opacity: 1; }
+.media-type-badge {
+  position: absolute; bottom: 6px; right: 6px;
+  font-size: 9px; letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.85);
+  background: rgba(26,24,20,0.6);
+  padding: 2px 6px; border-radius: 2px;
+}
+
+/* Lightbox */
+.lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.93); z-index: 1000; align-items: center; justify-content: center; }
+.lightbox.active { display: flex; }
+.lightbox-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: rgba(255,255,255,0.4); font-size: 1.5rem; cursor: pointer; padding: 0.5rem; transition: color 0.2s; }
+.lightbox-close:hover { color: white; }
+.lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.3); border: none; color: rgba(255,255,255,0.75); font-size: 2.4rem; line-height: 1; width: 54px; height: 54px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s, color 0.2s; z-index: 1001; }
+.lightbox-nav:hover { background: rgba(0,0,0,0.55); color: #fff; }
+.lightbox-prev { left: 1.2rem; padding-right: 3px; }
+.lightbox-next { right: 1.2rem; padding-left: 3px; }
+.lightbox-counter { position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.7); font-size: 13px; letter-spacing: 0.1em; }
+@media (max-width: 600px) { .lightbox-nav { width: 44px; height: 44px; font-size: 2rem; } .lightbox-prev { left: 0.4rem; } .lightbox-next { right: 0.4rem; } }
+
+/* 管理模式（連點「共 N 個回憶」5 次啟用） */
+.admin-bar {
+  display: none; align-items: center; gap: 0.7rem; flex-wrap: wrap;
+  background: rgba(250,248,244,0.05);
+  border: 0.5px solid rgba(184,151,90,0.35);
+  padding: 0.9rem 1.2rem; margin-bottom: 1.2rem;
+  color: rgba(250,248,244,0.7); font-size: 14px;
+}
+.admin-bar.active { display: flex; }
+.admin-bar input {
+  background: rgba(0,0,0,0.3); border: 0.5px solid rgba(184,151,90,0.4);
+  color: #fff; font-size: 16px; padding: 6px 12px; border-radius: 4px;
+  width: 110px; letter-spacing: 0.3em;
+}
+.admin-bar button {
+  background: var(--gold, #c2964f); color: #1a1814; border: none;
+  font-size: 14px; padding: 7px 16px; border-radius: 4px; cursor: pointer;
+}
+.admin-bar .admin-msg { color: #e08a7a; font-size: 13px; }
+.gallery-admin .media-del {
+  position: absolute; top: 6px; right: 6px; z-index: 5;
+  background: rgba(180,40,30,0.92); color: #fff; border: none;
+  font-size: 13px; line-height: 1; padding: 7px 10px; border-radius: 4px;
+  cursor: pointer; letter-spacing: 0.05em;
+}
+.media-del { display: none; }
+.gallery-admin .media-del.confirm { background: #e5352b; font-weight: 700; }

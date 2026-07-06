@@ -166,6 +166,7 @@
   }
   .trip-status.past { color: var(--gold); border-color: rgba(184,151,90,0.6); background: rgba(26,24,20,0.45); }
   .trip-status.upcoming { color: #7dd3b0; border-color: rgba(125,211,176,0.5); background: rgba(26,24,20,0.45); }
+  .trip-status.planning { color: #e8c87a; border-color: rgba(232,200,122,0.5); background: rgba(26,24,20,0.45); }
   .trip-status.planning { color: rgba(250,248,244,0.55); border-color: rgba(250,248,244,0.2); background: rgba(26,24,20,0.45); }
 
   .trip-card-body { padding: 1.5rem 1.5rem 1rem; }
@@ -241,61 +242,37 @@
 
   <div class="section-label">All Trips · 所有旅程</div>
 
-  <div class="trip-grid">
-
-    <!-- 東京 2025 -->
-    <a href="tokyo-2025.html" class="trip-card">
-      <div class="trip-card-cover">
-        <img
-          src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=80"
-          alt="東京">
-        <div class="trip-card-cover-overlay"></div>
-        <div class="trip-card-cover-title">東京</div>
-        <div class="trip-status past">已完成</div>
-      </div>
-      <div class="trip-card-body">
-        <div class="trip-card-date">2025年12月21日 — 25日</div>
-        <div class="trip-card-title">東京之旅 with 夢夢</div>
-        <div class="trip-card-subtitle">淺草 · 迪士尼 · 鎌倉 · 江之島</div>
-      </div>
-      <div class="trip-card-footer">
-        <span>5天4夜 · 日本</span>
-        <span class="trip-card-arrow">→</span>
-      </div>
-    </a>
-
-    <!-- 北海道 2026 -->
-    <a href="hokkaido-2026.html" class="trip-card">
-      <div class="trip-card-cover">
-        <img
-          src="https://res.cloudinary.com/dahimm2nk/image/upload/w_600,q_auto,f_auto/v1774599765/beginnerPhoto_lndiyj.jpg"
-          alt="北海道">
-        <div class="trip-card-cover-overlay"></div>
-        <div class="trip-card-cover-title">北海道</div>
-        <div class="trip-status upcoming">即將出發</div>
-      </div>
-      <div class="trip-card-body">
-        <div class="trip-card-date">2026年9月5日 — 11日</div>
-        <div class="trip-card-title">北海道之旅</div>
-        <div class="trip-card-subtitle">札幌 · 旭山動物園 · 美瑛 · 小樽</div>
-      </div>
-      <div class="trip-card-footer">
-        <span>7天6夜 · 日本</span>
-        <span class="trip-card-arrow">→</span>
-      </div>
-    </a>
-
-    <!-- 新增旅程 -->
-    <div class="trip-card-new" onclick="alert('下次旅程：告訴 Claude 你的目的地和行程，他會幫你做一個新頁面！')">
-      <div class="trip-card-new-icon">+</div>
-      <div class="trip-card-new-text">新增旅程</div>
-    </div>
-
-  </div>
+  <div class="trip-grid" id="tripGrid"></div>
 </main>
 
 <footer>
   <strong>我的旅遊日誌</strong> · 用心記錄每一段旅途
 </footer>
+
+<script src="assets/trips.js?v=20260706"></script>
+<script>
+document.getElementById('tripGrid').innerHTML = TRIPS.map(t => `
+  <a href="${t.href}" class="trip-card">
+    <div class="trip-card-cover">
+      <img src="${t.cover}" alt="${t.place}">
+      <div class="trip-card-cover-overlay"></div>
+      <div class="trip-card-cover-title">${t.place}</div>
+      <div class="trip-status ${t.status}">${TRIP_STATUS[t.status] || ''}</div>
+    </div>
+    <div class="trip-card-body">
+      <div class="trip-card-date">${t.date}</div>
+      <div class="trip-card-title">${t.title}</div>
+      <div class="trip-card-subtitle">${t.subtitle}</div>
+    </div>
+    <div class="trip-card-footer">
+      <span>${t.footer}</span>
+      <span class="trip-card-arrow">→</span>
+    </div>
+  </a>`).join('') + `
+  <div class="trip-card-new" title="下次旅程：告訴 Claude 目的地和行程，他會幫你做新頁面">
+    <div class="trip-card-new-icon">+</div>
+    <div class="trip-card-new-text">新增旅程</div>
+  </div>`;
+</script>
 </body>
 </html>
